@@ -12,6 +12,7 @@ const quickPrompts = [
   "Review my resume",
   "Suggest project ideas",
   "Mock interview questions",
+  "Skills for internships",
 ];
 
 export default function ChatInterface() {
@@ -94,7 +95,7 @@ export default function ChatInterface() {
   };
 
   return (
-    <section className="flex-1 h-screen bg-black text-white flex">
+    <section className="flex-1 h-screen bg-black text-white flex overflow-hidden">
       <aside className="w-80 border-r border-white/10 bg-white/5 backdrop-blur-xl p-5 flex flex-col">
         <button className="bg-white/10 hover:bg-white/15 transition rounded-2xl py-4 font-semibold border border-white/10">
           + New Chat
@@ -121,7 +122,7 @@ export default function ChatInterface() {
         </button>
       </aside>
 
-      <section className="flex-1 flex flex-col">
+      <section className="flex-1 flex flex-col min-w-0">
         <div className="flex items-center justify-between px-8 py-5 border-b border-white/10 bg-black/40 backdrop-blur-xl">
           <div>
             <h2 className="text-2xl font-bold">AI Career Copilot</h2>
@@ -185,7 +186,9 @@ export default function ChatInterface() {
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleSend()}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleSend();
+              }}
               placeholder="Ask anything about your career..."
               className="flex-1 bg-white/10 border border-white/10 rounded-full px-6 py-4 outline-none placeholder:text-gray-500"
             />
