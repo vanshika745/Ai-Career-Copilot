@@ -3,8 +3,12 @@
 import React from "react";
 
 type SidebarProps = {
+  activeScreen?: string;
   activeSection?: string;
   onNavigate?: (section: string) => void;
+  onOpenHome?: () => void;
+  onOpenChat?: () => void;
+  onOpenResume?: () => void;
   onOpenAuth?: () => void;
   onUpgrade?: () => void;
 };
@@ -19,11 +23,39 @@ const navItems = [
 ];
 
 export default function Sidebar({
-  activeSection = "AI Career Copilot",
+  activeScreen,
+  activeSection,
   onNavigate,
+  onOpenHome,
+  onOpenChat,
+  onOpenResume,
   onOpenAuth,
   onUpgrade,
 }: SidebarProps) {
+  const current = activeScreen ?? activeSection ?? "AI Career Copilot";
+
+  const handleNavigate = (item: string) => {
+    if (onNavigate) {
+      onNavigate(item);
+      return;
+    }
+
+    if (item === "Home") {
+      onOpenHome?.();
+      return;
+    }
+
+    if (item === "AI Career Copilot") {
+      onOpenChat?.();
+      return;
+    }
+
+    if (item === "Resume Analyzer") {
+      onOpenResume?.();
+      return;
+    }
+  };
+
   return (
     <aside className="w-80 min-h-screen border-r border-white/10 bg-black text-white flex flex-col justify-between p-5">
       <div>
@@ -39,13 +71,13 @@ export default function Sidebar({
 
         <nav className="space-y-2">
           {navItems.map((item) => {
-            const isActive = activeSection === item;
+            const isActive = current === item;
 
             return (
               <button
                 key={item}
                 type="button"
-                onClick={() => onNavigate?.(item)}
+                onClick={() => handleNavigate(item)}
                 className={`w-full text-left px-4 py-3 rounded-2xl transition border ${
                   isActive
                     ? "bg-white/15 border-white/20"
